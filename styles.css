@@ -225,7 +225,40 @@ footer p {
 
   footer {
     width: 92%;
+    height: 70px;
   }
+
+  .social-icons {
+    margin-bottom: 0px;
+  }
+  
+  .social-icons a {
+    margin: 0 20px;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background-color: #fff;
+  }
+  
+  .social-icons img {
+    width: 15px;
+    height: 15px;
+  }
+
+  .verification img {
+    width: 60px;
+    height: auto;
+    margin-top: 10px;
+  }
+
+  
+footer p {
+  margin: 0;
+  font-size: small;
+  color: black;
+}
+
 
   .page {
     padding: 20px;
