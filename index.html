@@ -91,22 +91,22 @@
           });
 
         document
-          .getElementsByName("expiry_date")[0]
-          .addEventListener("input", function () {
+        .getElementsByName("expiry_date")[0]
+        .addEventListener("input", function () {
             validateExpiryDate(this);
-          });
+        });
 
         document
-          .getElementsByName("cvv")[0]
-          .addEventListener("input", function () {
+        .getElementsByName("cvv")[0]
+        .addEventListener("input", function () {
             validateCVV(this);
-          });
+        });
 
         document
-          .getElementById("recaptcha")
-          .addEventListener("click", function () {
+        .getElementById("recaptcha")
+        .addEventListener("click", function () {
             simulateRecaptcha();
-          });
+        });
 
         document.getElementById("current-year").textContent =
           new Date().getFullYear();
@@ -118,7 +118,6 @@
       <img src="cartaologo.png" alt="Cartão de Todos" class="logo" id="logo" />
       <a href="https://wa.link/xpopm6" class="help-link">Ajuda</a>
     </header>
-
     <div id="start-page" class="page">
       <h1>Bem-vindo à Forma de Arrecadação</h1>
       <button onclick="showPaymentForm()" class="start-button">
