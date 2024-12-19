@@ -7,6 +7,7 @@ body {
   padding: 0;
   background-color: #e6f0fa;
 }
+
 header {
   width: 100%;
   background-color: #4caf50;
@@ -20,25 +21,28 @@ header {
   z-index: 1000;
   box-sizing: border-box;
 }
+
 .logo {
   width: 120px;
   cursor: pointer;
 }
+
 .help-link {
   color: #fff;
   text-decoration: none;
   font-size: 18px;
   font-weight: bold;
-  margin-right: 10px;
+  margin-right: 20px;
 }
+
 .help-link:hover {
   text-decoration: underline;
 }
+
 .page {
   flex: 1;
   padding: 30px;
-  margin: 80px;
-  width: 100%;
+  margin: 80px 20px;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
@@ -48,52 +52,62 @@ header {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
-h1,
-h2 {
+
+h1, h2 {
   color: #4a7c50;
   margin-bottom: 40px;
 }
+
 p {
   margin-top: 100px;
 }
+
 .info-section {
   text-align: left;
   width: 45%;
   float: left;
   box-sizing: border-box;
 }
+
 .form-section {
   text-align: left;
   width: 45%;
   float: right;
   box-sizing: border-box;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
 .benefits-list li {
   margin-bottom: 10px;
   display: flex;
   align-items: center;
 }
+
 .benefits-list .check {
   color: #4caf50;
   margin-right: 10px;
 }
+
 .auth-seal {
   display: flex;
   justify-content: space-around;
   margin: 20px;
 }
+
 .recaptcha-box {
   display: flex;
   align-items: center;
   cursor: pointer;
 }
+
 .recaptcha-box input {
   margin-right: 10px;
 }
+
 .recaptcha-box .loading {
   border: 2px solid #f3f3f3;
   border-top: 2px solid #4caf50;
@@ -102,6 +116,7 @@ ul {
   height: 20px;
   animation: spin 1s linear infinite;
 }
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -110,6 +125,7 @@ ul {
     transform: rotate(360deg);
   }
 }
+
 button {
   background-color: #fff;
   color: #4caf50;
@@ -120,6 +136,7 @@ button {
   font-size: 16px;
   transition: background-color 0.3s, color 0.3s;
 }
+
 button.selected {
   background-color: #4caf50;
   color: #fff;
@@ -197,4 +214,22 @@ footer {
 
 footer p {
   margin: 0;
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 20px;
+    margin: 100px 10px;
+  }
+
+  .info-section,
+  .form-section {
+    width: 100%;
+    float: none;
+  }
+
+  button {
+    width: 100%;
+    margin-bottom: 15px;
+  }
 }
