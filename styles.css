@@ -93,31 +93,6 @@ ul {
   margin-right: 10px;
 }
 
-.auth-seal {
-  display: flex;
-  justify-content: space-around;
-  margin: 20px;
-}
-
-.recaptcha-box {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.recaptcha-box input {
-  margin-right: 10px;
-}
-
-.recaptcha-box .loading {
-  border: 2px solid #f3f3f3;
-  border-top: 2px solid #4caf50;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  animation: spin 1s linear infinite;
-}
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -215,6 +190,8 @@ footer {
 
 footer p {
   margin: 0;
+  font-size: medium;
+  color: black;
 }
 
 @media (max-width: 700px) {
@@ -252,6 +229,10 @@ footer p {
     margin-top: 10px;
   }
 
+  .info-section p{
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
   
 footer p {
   margin: 0;
