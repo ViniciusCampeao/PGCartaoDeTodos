@@ -51,7 +51,10 @@ header {
 h1,
 h2 {
   color: #4a7c50;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+}
+p {
+  margin-top: 100px;
 }
 .info-section {
   text-align: left;
@@ -172,6 +175,10 @@ footer {
 .social-icons a {
   margin: 0 10px;
   display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  background-color: #fff;
 }
 
 .social-icons img {
